@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Bank Marketing ML | Mateo Bazán Rojas</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', sans-serif;
+            background: linear-gradient(145deg, #0B1120 0%, #0a0f1a 100%);
+            color: #eef2ff;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        .slides-container {
+            width: 100%;
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 2.5rem;
+        }
+
+        .slide {
+            background: rgba(18, 25, 45, 0.75);
+            backdrop-filter: blur(2px);
+            border-radius: 2rem;
+            border: 1px solid rgba(56, 189, 248, 0.2);
+            box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.4);
+            padding: 2rem 2rem 2.2rem 2rem;
+            transition: transform 0.2s ease, box-shadow 0.2s;
+        }
+
+        .slide:hover {
+            transform: translateY(-4px);
+            border-color: rgba(56, 189, 248, 0.5);
+            box-shadow: 0 25px 40px -14px rgba(0, 0, 0, 0.5);
+        }
+
+        h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #FFFFFF, #7DD3FC);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: -0.02em;
+        }
+
+        h2 {
+            font-size: 1.85rem;
+            font-weight: 600;
+            border-left: 5px solid #3B82F6;
+            padding-left: 1.2rem;
+            margin-bottom: 1.25rem;
+            color: #F0F9FF;
+        }
+
+        h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #93C5FD;
+            margin: 1rem 0 0.5rem 0;
+        }
+
+        .badge {
+            background: #1E293B;
+            color: #94A3B8;
+            border-radius: 40px;
+            padding: 0.2rem 0.8rem;
+            font-size: 0.75rem;
+            font-weight: 500;
+            display: inline-block;
+        }
+
+        .metric-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.2rem;
+            margin: 1.5rem 0;
+        }
+
+        .metric-card {
+            background: #0F172A;
+            border-radius: 1.2rem;
+            padding: 1rem 1.3rem;
+            flex: 1 1 180px;
+            text-align: center;
+            border-bottom: 3px solid #3B82F6;
+        }
+
+        .metric-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #60A5FA;
+        }
+
+        .insight-text {
+            background: #111827;
+            padding: 0.8rem 1.2rem;
+            border-radius: 1rem;
+            margin: 0.8rem 0;
+            border-left: 4px solid #F97316;
+        }
+
+        .grid-2col {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin: 1.2rem 0;
+        }
+
+        .placeholder-graph {
+            background: #0a0f1f;
+            border-radius: 1rem;
+            border: 1px dashed #334155;
+            padding: 1.2rem;
+            text-align: center;
+            transition: all 0.2s;
+        }
+
+        .placeholder-graph i {
+            font-size: 2rem;
+            color: #3B82F6;
+            margin-bottom: 0.5rem;
+        }
+
+        .graph-title {
+            font-weight: 500;
+            color: #9CA3AF;
+            font-size: 0.85rem;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-ghost {
+            background: transparent;
+            border: 1px solid #2d3a5e;
+            padding: 0.4rem 1rem;
+            border-radius: 2rem;
+            font-size: 0.75rem;
+        }
+
+        hr {
+            border-color: #1E293B;
+            margin: 1rem 0;
+        }
+
+        .qr-mock {
+            background: #111827;
+            border-radius: 1rem;
+            padding: 0.8rem;
+            display: inline-block;
+            text-align: center;
+        }
+
+        footer {
+            text-align: center;
+            padding: 1rem;
+            font-size: 0.75rem;
+            color: #5B6E8C;
+        }
+
+        @media (max-width: 760px) {
+            .slides-container {
+                padding: 1rem;
+            }
+            h1 {
+                font-size: 2.2rem;
+            }
+            h2 {
+                font-size: 1.5rem;
+            }
+        }
+
+        .highlight {
+            color: #FACC15;
+            font-weight: 600;
+        }
+        .warning {
+            color: #F87171;
+        }
+        .success {
+            color: #4ADE80;
+        }
+    </style>
+</head>
+<body>
+<div class="slides-container">
+
+    <!-- SLIDE 1 - PORTADA -->
+    <div class="slide">
+        <div style="display: flex; flex-direction: column; gap: 1rem;">
+            <span class="badge"><i class="fas fa-chart-line"></i> Machine Learning · Fintech</span>
+            <h1>Optimización de Campañas<br>de Marketing Bancario</h1>
+            <p style="font-size: 1.2rem; color: #CBD5E1; max-width: 85%;">Predicción de suscripción a depósitos a plazo fijo mediante modelos clásicos y Deep Learning</p>
+            <div style="margin-top: 1.5rem;">
+                <p><i class="fas fa-user"></i> <strong>Mateo Bazán Rojas</strong> — Científico de Datos</p>
+                <p><i class="fas fa-calendar-alt"></i> 5 de Mayo, 2026</p>
+                <p><i class="fas fa-database"></i> Dataset: Bank Marketing (UCI) · 45.211 contactos</p>
+            </div>
+            <div style="margin-top: 1rem; display: flex; gap: 0.8rem;">
+                <div class="btn-ghost"><i class="fab fa-python"></i> Scikit-learn, TensorFlow</div>
+                <div class="btn-ghost"><i class="fas fa-chart-simple"></i> EDA + CV</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 2 - CONTEXTO Y PROBLEMA (desbalance crítico) -->
+    <div class="slide">
+        <h2><i class="fas fa-exclamation-triangle"></i> Contexto & Reto Principal</h2>
+        <p>El banco portugués realiza campañas telefónicas para ofrecer depósitos a plazo. El objetivo es <strong>predecir qué clientes se suscribirán</strong> ("yes") para optimizar recursos y aumentar la eficiencia.</p>
+        <div class="metric-grid">
+            <div class="metric-card"><span class="metric-number">88.73%</span><br>No suscribe (clase 0)</div>
+            <div class="metric-card"><span class="metric-number">11.27%</span><br>Sí suscribe (clase 1)</div>
+            <div class="metric-card"><span class="metric-number">~4.6k</span><br>Registros positivos</div>
+        </div>
+        <div class="insight-text">
+            <i class="fas fa-balance-scale"></i> <strong>Severo desbalance de clases</strong> → Modelos tienden a predecir mayoritariamente "no". Se requiere estrategias específicas (class_weight, métricas robustas como F1-score y Recall).
+        </div>
+        <div class="placeholder-graph">
+            <i class="fas fa-chart-bar"></i>
+            <div class="placeholder-graph">
+                <i class="fas fa-chart-bar"></i>
+                <img src="distribucion_suscripciones.png" style="max-width:90%; margin-top:8px;">
+                <div class="graph-title">Distribución de suscripciones (countplot 'y')</div>
+            </div>
+            <div class="graph-title">88.7% “no” vs 11.3% “yes” – impacto directo en el rendimiento del modelo</div>
+        </div>
+    </div>
+
+    <!-- SLIDE 3 - EDA + insights (edad, trabajo, correlaciones) -->
+    <div class="slide">
+        <h2><i class="fas fa-chart-pie"></i> Análisis Exploratorio (EDA)</h2>
+        <div class="grid-2col">
+            <!-- Boxplot Edad vs Suscripción -->
+            <div class="placeholder-graph">
+                <i class="fas fa-chart-box"></i>
+                <img src="boxplot.png" 
+                    alt="Boxplot: distribución de edad según suscripción" 
+                    style="max-width:100%; height:auto; border-radius: 12px; margin-top: 8px;">
+                <div class="graph-title">Los clientes que suscriben tienden a tener mediana de edad ligeramente superior (~40 vs 36 años).</div>
+            </div>
+            <!-- Suscripción por tipo de trabajo -->
+            <div class="placeholder-graph">
+                <i class="fas fa-briefcase"></i>
+                <img src="suscripcion_tipo_trabajo.png" 
+                    alt="Suscripciones según tipo de trabajo" 
+                    style="max-width:100%; height:auto; border-radius: 12px; margin-top: 8px;">
+                <div class="graph-title">"Retired", "student" y "management" muestran mayor tasa de conversión relativa.</div>
+            </div>
+        </div>
+        <div class="insight-text">
+            <i class="fas fa-chart-line"></i> <strong>Insights clave:</strong> La duración de la llamada (duration) influye pero es <span class="highlight">data leakage</span>; se eliminó. Variables macroeconómicas (euribor3m, nr.employed) tienen alta correlación con la respuesta.
+        </div>
+        <!-- Mapa de calor de correlaciones -->
+        <div class="placeholder-graph" style="margin-top: 6px;">
+            <i class="fas fa-fire"></i>
+            <img src="mapa_calor_correlaciones.png" 
+                alt="Mapa de calor de correlaciones entre variables numéricas" 
+                style="max-width:100%; height:auto; border-radius: 12px; margin-top: 8px;">
+            <div class="graph-title">Euribor3m, nr.employed y emp.var.rate son los predictores más influyentes.</div>
+        </div>
+    </div>
+
+    <!-- SLIDE 4 - PREPROCESAMIENTO (limpieza, encoding, split) -->
+    <div class="slide">
+        <h2><i class="fas fa-broom"></i> Preprocesamiento Inteligente</h2>
+        <div class="grid-2col">
+            <div>
+                <ul style="list-style-type: none; margin-top: 0.5rem;">
+                    <li><i class="fas fa-trash-alt" style="color:#F87171;"></i> Eliminación columna <strong>"default"</strong> (20.8% unknown) y <strong>"duration"</strong> (data leakage)</li>
+                    <li><i class="fas fa-code-branch"></i> One‑Hot Encoding: 19 → <strong>60 características</strong></li>
+                    <li><i class="fas fa-divide"></i> Escalado StandardScaler para SVM y Redes Neuronales</li>
+                    <li><i class="fas fa-chart-simple"></i> Partición estratificada 80/20 manteniendo proporción original</li>
+                </ul>
+            </div>
+            <div class="metric-card" style="background:#0F172A;">
+                <span class="metric-number">32,950</span><br>Train<br>
+                <span class="metric-number">8,238</span><br>Test
+            </div>
+        </div>
+        <div class="insight-text">
+            ✅ <strong>Shuffle + stratify =</strong> train {0:88.7%, 1:11.3%} y test idéntico. Sin fugas de información.
+        </div>
+        <!-- Resumen del flujo de preprocesamiento (sin imagen) -->
+        <div class="placeholder-graph">
+            <i class="fas fa-chart-network"></i>
+            <div style="text-align: left; margin-top: 8px; padding: 0.5rem;">
+                <p><strong>Flujo de preprocesamiento:</strong></p>
+                <ol style="margin-left: 1.2rem; color: #CBD5E1;">
+                    <li>Eliminación de columnas con alto % de "unknown" (default) y data leakage (duration)</li>
+                    <li>One-Hot Encoding de variables categóricas (9 columnas → 41 nuevas)</li>
+                    <li>Escalado con StandardScaler (media=0, std=1)</li>
+                    <li>Partición train/test 80/20 estratificada (mantiene proporción de clases)</li>
+                </ol>
+            </div>
+            <div class="graph-title">Diagrama conceptual del pipeline (sin imagen externa)</div>
+        </div>
+    </div>
+
+    <!-- SLIDE 5 - MODELADO TRADICIONAL + CV -->
+    <div class="slide">
+        <h2><i class="fas fa-robot"></i> Modelos Clásicos & Cross-Validation</h2>
+        <p>Entrenamiento con <strong>Decision Tree (max_depth=5)</strong>, <strong>Random Forest (n=10)</strong>, <strong>SVM (kernel RBF)</strong>. Validación cruzada estratificada (k=5) para robustez.</p>
+        <div class="metric-grid">
+            <div class="metric-card"><span class="metric-number">0.903</span><br>Decision Tree<br><span class="graph-title">Test Accuracy</span></div>
+            <div class="metric-card"><span class="metric-number">0.890</span><br>Random Forest<br><span class="graph-title">Test Accuracy</span></div>
+            <div class="metric-card"><span class="metric-number">0.901</span><br>SVM (RBF)<br><span class="graph-title">Test Accuracy</span></div>
+        </div>
+        <div class="insight-text">
+            <i class="fas fa-chart-line"></i> <strong>Resultados CV (promedio):</strong> Accuracy ≈ 0.89-0.90 | F1-score ~0.37 | Recall ~0.26 (refleja dificultad del desbalance).
+        </div>
+        <div class="placeholder-graph">
+            <i class="fas fa-chart-simple"></i>
+            <img src="comparativa_cv.png" 
+                alt="Comparativa de Accuracy y F1-score por modelo en validación cruzada" 
+                style="max-width:100%; height:auto; border-radius: 12px; margin-top: 8px;">
+            <div class="graph-title">Decision Tree, Random Forest y SVM – Accuracy y F1 promedio (k=5)</div>
+        </div>
+    </div>
+
+    <!-- SLIDE 6 - RESULTADOS ML CLÁSICO: Importancia variables + ROC -->
+    <div class="slide">
+        <h2><i class="fas fa-chart-simple"></i> Interpretabilidad: ¿Qué impulsa la suscripción?</h2>
+        <div class="grid-2col">
+            <div class="placeholder-graph">
+                <i class="fas fa-chart-tree"></i>
+                <div>[INSERTAR GRÁFICA: Top 10 Importancia (Random Forest)]</div>
+                <div class="graph-title">euribor3m, nr.employed, emp.var.rate, cons.price.idx, age, campaign, pdays…</div>
+            </div>
+            <div class="placeholder-graph">
+                <i class="fas fa-chart-line"></i>
+                <div>[INSERTAR GRÁFICA: Curva ROC comparativa]</div>
+                <div class="graph-title">AUC ~0.85-0.88; SVM y Decision Tree tienen mejor compromiso.</div>
+            </div>
+        </div>
+        <p><i class="fas fa-lightbulb"></i> Las condiciones macroeconómicas (tasa Euribor, empleo) pesan más que atributos demográficos individuales.</p>
+    </div>
+
+    <!-- SLIDE 7 - MEJOR MODELO CLÁSICO: Matriz de confusión + impacto negocio -->
+    <div class="slide">
+        <h2><i class="fas fa-chart-simple"></i> Mejor Modelo Clásico: Decision Tree (max_depth=5)</h2>
+        <p>Accuracy test: <strong>0.903</strong> | Diferencia train-test sólo 1.37% → excelente generalización, sin overfitting.</p>
+        <div class="grid-2col">
+            <div class="placeholder-graph">
+                <i class="fas fa-table"></i>
+                <div>[INSERTAR MATRIZ DE CONFUSIÓN]</div>
+                <div class="graph-title">Verdaderos Positivos / Falsos Negativos cruciales</div>
+            </div>
+            <div class="insight-text" style="background: #1A1F2E;">
+                <i class="fas fa-chart-line"></i> <span class="warning">⚠️ Falsos Negativos (FN):</span> Cliente que hubiera suscrito pero el modelo predice "no" → pérdida de oportunidad de negocio.<br>
+                <span class="success">✅ Falsos Positivos (FP):</span> Llamada innecesaria, coste operacional bajo.<br>
+                <strong>Recomendación: priorizar Recall (minimizar FN) ajustando umbral.</strong>
+            </div>
+        </div>
+        <div class="metric-card" style="width:100%; margin-top: 0.6rem;">
+            <span class="metric-number">Recall ~0.27</span> (por mejorar) | <span class="metric-number">Precisión ~0.56</span>
+        </div>
+    </div>
+
+    <!-- SLIDE 8 - ENFOQUE DEEP LEARNING: arquitecturas probadas -->
+    <div class="slide">
+        <h2><i class="fas fa-microchip"></i> Deep Learning: Perceptrón Multicapa</h2>
+        <p>Evaluación de 3 arquitecturas profundas (TensorFlow/Keras) con 20 épocas, optimizador Adam, función sigmoide.</p>
+        <div class="metric-grid">
+            <div class="metric-card"><span class="metric-number">MLP1</span>3 capas ocultas: [64, 128, 128]</div>
+            <div class="metric-card"><span class="metric-number">MLP2</span>6 capas: [64,64,128,128,256,256] + Dropout(0.3)</div>
+            <div class="metric-card"><span class="metric-number">MLP3</span>10 capas: todas 128 neuronas</div>
+        </div>
+        <div class="insight-text">
+            🔬 Se añadió EarlyStopping en MLP2/MLP3 para mitigar sobreajuste. Batch size=32, validation_split=20%.
+        </div>
+        <div class="placeholder-graph">
+            <i class="fas fa-project-diagram"></i>
+            <div>[INSERTAR DIAGRAMA ARQUITECTURA RED NEURONAL]</div>
+        </div>
+    </div>
+
+    <!-- SLIDE 9 - RESULTADOS DEEP LEARNING + curvas aprendizaje / overfitting -->
+    <div class="grid-2col">
+        <div class="placeholder-graph">
+            <i class="fas fa-chart-line"></i>
+            <img src="deep01.png" 
+                alt="Curvas de accuracy entrenamiento vs validación - MLP1" 
+                style="max-width:100%; height:auto; border-radius: 12px; margin-top: 8px;">
+            <div class="graph-title">Train accuracy sube hasta ~0.937, validación se estanca en ~0.882 → overfitting post época 12.</div>
+        </div>
+        <div class="placeholder-graph">
+            <i class="fas fa-chart-line"></i>
+            <img src="deep03.png" 
+                alt="Curvas de accuracy entrenamiento vs validación - MLP3 (10 capas)" 
+                style="max-width:100%; height:auto; border-radius: 12px; margin-top: 8px;">
+            <div class="graph-title">Overfitting más agresivo, validación cae tras época 10.</div>
+        </div>
+    </div>
+
+    <!-- SLIDE 10 - CONCLUSIONES Y RECOMENDACIÓN FINAL -->
+    <div class="slide">
+        <h2><i class="fas fa-check-circle"></i> Conclusiones & Recomendaciones Estratégicas</h2>
+        <ul style="margin-left: 1.2rem; line-height: 1.6;">
+            <li><i class="fas fa-tree"></i> <strong>Modelo recomendado:</strong> Decision Tree (max_depth=5) por su equilibrio entre simplicidad, interpretabilidad y accuracy (90.3%).</li>
+            <li><i class="fas fa-chart-line"></i> Aunque SVM RBF logra accuracy ~90.1%, el árbol de decisión ofrece reglas claras para el negocio.</li>
+            <li><i class="fas fa-chart-pie"></i> <span class="warning">El desbalance extremo</span> limita el recall; se sugiere usar técnicas como SMOTE o ajuste de umbral de clasificación para capturar más clientes potenciales.</li>
+            <li><i class="fas fa-brain"></i> Deep Learning no supera a los modelos clásicos con los datos actuales, pero podría beneficiarse de más datos o aumento sintético.</li>
+            <li><i class="fas fa-chart-line"></i> Variables macroeconómicas (euribor3m, empleo) son drivers críticos: el banco debe segmentar campañas en contextos económicos favorables.</li>
+        </ul>
+        <div class="insight-text" style="margin-top: 1rem;">
+            📌 <strong>Próximo paso:</strong> Implementar modelo en producción con monitorización de recall, y realizar pruebas A/B para medir ROI real.
+        </div>
+    </div>
+
+    <!-- SLIDE 11 - APRENDIZAJE NO SUPERVISADO (clustering) NUEVA -->
+    <div class="slide">
+        <h2><i class="fas fa-chart-network"></i> Aprendizaje No Supervisado: Segmentación de Clientes</h2>
+        <p>Análisis de clusters sobre los datos transformados (PCA previa) para descubrir patrones naturales sin usar la etiqueta de suscripción.</p>
+        <div class="grid-2col">
+            <div class="placeholder-graph">
+                <i class="fas fa-chart-line"></i>
+                <img src="pca.png" 
+                    alt="Gráfico de varianza explicada acumulada por componentes principales" 
+                    style="max-width:100%; height:auto; border-radius: 12px; margin-top: 8px;">
+                <div class="graph-title">n_components_95 = 39 componentes → retenemos 95% de varianza. PC1=9.9%, PC2=4.8% (total 14.7% visualizable en 2D).</div>
+            </div>
+            <div class="placeholder-graph">
+                <i class="fas fa-chart-line"></i>
+                <img src="kmeans.png" 
+                    alt="Método del codo para seleccionar número de clusters en KMeans" 
+                    style="max-width:100%; height:auto; border-radius: 12px; margin-top: 8px;">
+                <div class="graph-title">Inercia disminuye suavemente; codo no definido, pero k=2 y k=4 son interpretables.</div>
+            </div>
+        </div>
+        <div class="metric-grid">
+            <div class="metric-card"><span class="metric-number">KMeans k=2</span>Clusters balanceados (~50% cada uno)<br><span class="graph-title">No separa bien las clases originales (sí/no)</span></div>
+            <div class="metric-card"><span class="metric-number">KMeans k=4</span>Tamaños: 13.5k, 13.5k, 5k, 9.1k<br><span class="graph-title">Mayor granularidad</span></div>
+            <div class="metric-card"><span class="metric-number">DBSCAN</span>eps=0.08, min_samples=5<br><span class="warning">143 clusters + 1714 ruido</span></div>
+        </div>
+        <div class="placeholder-graph">
+            <i class="fas fa-chart-scatter"></i>
+            <img src="clusters_comparativa.png" 
+                alt="Proyección PCA 2D: clases originales, clusters KMeans y DBSCAN" 
+                style="max-width:100%; height:auto; border-radius: 12px; margin-top: 8px;">
+            <div class="graph-title">Visualmente KMeans agrupa regiones densas; DBSCAN identifica ruido y muchos micro-clusters.</div>
+        </div>
+        <div class="insight-text">
+            💡 <strong>Insights de clustering:</strong> Los clusters de KMeans no se alinean directamente con la variable objetivo, pero revelan segmentos conductuales. DBSCAN detecta clientes atípicos (ruido) que podrían ser casos especiales. El análisis no supervisado puede enriquecer campañas segmentando por perfil económico/educativo.
+        </div>
+    </div>
+
+    <!-- SLIDE 12 - CÓDIGO, REPOSITORIO Y Q&A -->
+    <div class="slide">
+        <h2><i class="fab fa-github"></i> Código, Documentación & Q&A</h2>
+        <div class="grid-2col">
+            <div>
+                <p>Repositorio completo con notebook de Colab, preprocesamiento, entrenamiento y análisis de resultados:</p>
+                <div style="margin: 1.2rem 0;">
+                    <i class="fab fa-github"></i> <strong>github.com/mateobazan/bank_marketing_ml</strong>
+                </div>
+                <div class="qr-mock">
+                    <i class="fas fa-qrcode" style="font-size: 3rem; color:#3B82F6;"></i>
+                    <div class="graph-title">[INSERTAR CÓDIGO QR REAL hacia GitHub/Colab]</div>
+                </div>
+            </div>
+            <div class="insight-text" style="background:#0B1120;">
+                <i class="fas fa-comments"></i> <strong>Preguntas & Respuestas</strong><br>
+                • ¿Cómo se gestionó el data leakage? (eliminación de 'duration')<br>
+                • ¿Qué umbral de decisión maximiza el recall?<br>
+                • Escalabilidad del modelo: inferencia en tiempo real.<br>
+                <i class="fas fa-envelope"></i> mateo.bazan@example.com
+            </div>
+        </div>
+        <hr>
+        <footer style="font-size: 0.7rem; text-align: center;">Proyecto Final Aprendizaje de Máquina – Análisis completo 2026 | Dataset UCI Bank Marketing</footer>
+    </div>
+
+</div>
+</body>
+</html>
