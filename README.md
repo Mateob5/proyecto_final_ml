@@ -6,7 +6,7 @@
 
 **Materia:** Aprendizaje de Máquina  
 **Profesor:** Gustavo Garzón Ph.D.  
-**Autor:** Mateo Bazán Rojas  
+**Autor:** Jeronimo Andres Mateo Bazán Rojas  
 **Fecha:** 5 de Mayo de 2026
 
 ---
